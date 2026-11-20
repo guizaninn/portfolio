@@ -1,0 +1,236 @@
+/* ==========================================================================
+   Sub-pages: About me + case studies
+   Loaded after styles.css (shares its tokens, reveal animation and fonts)
+   ========================================================================== */
+
+/* ------------------------------------------------------- page header ---- */
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.back-link svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.667;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .35s var(--ease);
+}
+.back-link:hover { color: transparent; background: var(--gradient); -webkit-background-clip: text; background-clip: text; }
+.back-link:hover svg { stroke: url(#brand-gradient); transform: translateX(-4px); }
+
+.page-label {
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: .01em;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+/* ------------------------------------------------------- mini footer ---- */
+.mini-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 64px;
+  background: var(--ink);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+.mini-footer img { width: 76px; height: auto; }
+
+/* ============================================================ ABOUT ===== */
+.page-about { background: #F2F2F2; }
+
+.about-intro {
+  min-height: max(100vh, 760px);
+  min-height: max(100svh, 760px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 64px;
+  background: radial-gradient(60.6% 100% at 100% 0%, #F9EFF3 0%, var(--bg) 100%);
+}
+.about-intro .page-label { font-size: 24px; }
+
+.about-intro__title {
+  margin-top: -8px;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -.01em;
+  color: var(--ink-soft);
+}
+
+.about-intro__text {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: .02em;
+}
+
+.about-intro__video {
+  align-self: flex-end;
+  width: 356px;
+  max-width: 100%;
+  aspect-ratio: 356 / 486;
+  margin-top: auto;
+  border-radius: 20px;
+  object-fit: cover;
+  background: #E9E4E6;
+}
+
+.about-cv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  padding: 64px 64px 80px;
+  background: radial-gradient(60.6% 75.4% at 100% 77.1%, #F9EFF3 0%, var(--bg) 100%);
+}
+
+.cv-col h2 {
+  margin-bottom: 40px;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: .8;
+  letter-spacing: -.01em;
+  color: var(--ink-soft);
+}
+
+.cv-list { display: flex; flex-direction: column; gap: 32px; margin: 0; padding: 0; list-style: none; }
+
+.cv-item { display: flex; flex-direction: column; gap: 8px; }
+.cv-item__role { font-size: 18px; font-weight: 600; line-height: 1.2; color: #06161D; }
+.cv-item__org  { font-size: 14px; font-weight: 700; line-height: 1.2; color: var(--ink); }
+a.cv-item__org { align-self: flex-start; text-decoration: underline; text-underline-offset: 2px; transition: color .2s; }
+a.cv-item__org:hover { color: var(--accent); }
+.cv-item__date {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.cv-col--courses .cv-item { gap: 6px; }
+.cv-col--courses .cv-item__org { font-weight: 600; }
+.cv-col--courses .cv-item__role { color: var(--ink); }
+.cv-col--courses .cv-item__date { color: var(--ink); }
+
+/* ======================================================= CASE STUDY ===== */
+.page-case { background: #F2F2F2; }
+.page-case--bradesco {
+  background: linear-gradient(180deg, #FFEBEB 0, #FDEEEE 288px, #F8F4F4 683px) #F8F4F4;
+}
+
+.case {
+  width: min(700px, 100% - 40px);
+  margin: 0 auto;
+  padding: 64px 0 72px;
+}
+
+.case__title {
+  margin-top: 88px;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.32;
+  text-wrap: balance;
+}
+
+.case__cover { margin-top: 56px; }
+.case__cover + .case__title { margin-top: 64px; }
+
+.case__meta {
+  display: grid;
+  grid-template-columns: 176px minmax(0, 1fr);
+  gap: 40px;
+  margin-top: 88px;
+}
+.case__cover + .case__title + .case__meta { margin-top: 56px; }
+
+.case__aside { display: flex; flex-direction: column; gap: 32px; }
+
+.eyebrow {
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.case__body,
+.case__list {
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: .02em;
+  color: var(--ink);
+}
+.case__body p + p { margin-top: 20px; }
+.case__body strong { font-weight: 700; }
+
+.case__list { margin: 0; padding: 0; list-style: none; }
+.case__list--bullets li { position: relative; padding-left: 14px; }
+.case__list--bullets li::before {
+  content: "·";
+  position: absolute;
+  left: 2px;
+  font-weight: 700;
+}
+
+.case__content { display: flex; flex-direction: column; gap: 32px; margin-top: 112px; }
+.case__cover ~ .case__content { margin-top: 64px; gap: 64px; }
+
+.case-section { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+.case-section:first-child { margin-top: 0; }
+.case-section h2 { font-size: 14px; font-weight: 700; line-height: 1.4; letter-spacing: .02em; }
+
+.shot {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, .03);
+}
+.page-case:not(.page-case--bradesco) .shot { border-radius: 0; background: none; }
+
+.shot-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* ------------------------------------------------------- responsive ---- */
+@media (max-width: 809px) {
+  .about-intro { padding: 32px 20px 48px; min-height: auto; }
+  .about-intro .page-label { font-size: 20px; }
+  .about-intro__title { font-size: 28px; margin-top: 16px; }
+  .about-intro__video { align-self: stretch; width: 100%; margin-top: 16px; }
+
+  .about-cv { grid-template-columns: 1fr; gap: 64px; padding: 56px 20px; }
+
+  .case { padding-top: 32px; }
+  .case__title { margin-top: 56px; font-size: 30px; }
+  .case__meta { grid-template-columns: 1fr; gap: 32px; margin-top: 40px; }
+  .case__aside { flex-direction: row; flex-wrap: wrap; gap: 32px 48px; }
+  .case__content { margin-top: 64px; }
+  .case__cover ~ .case__content { gap: 40px; }
+  .shot { border-radius: 14px; }
+  .shot-pair { gap: 10px; }
+
+  .mini-footer { padding: 32px 20px; }
+}
