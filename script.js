@@ -69,7 +69,7 @@
   const root = document.documentElement;
   root.classList.add('smooth-scroll'); // styles.css: hands scrolling over to this script
 
-  const EASE = 0.085;          // free scrolling: share of the remaining distance per 60fps frame (lower = slower)
+  const EASE = 0.055;          // free scrolling: share of the remaining distance per 60fps frame (lower = slower)
   const TURN_MS = 900;         // About: how long one page turn takes
   let target = scrollY;
   let current = scrollY;
