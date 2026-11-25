@@ -60,49 +60,67 @@
 })();
 
 // Smooth, slightly slowed-down scrolling for mouse wheels and trackpads (the feel
-// the old Framer site had). Each wheel tick moves a target; the page eases toward
-// it every frame. Touch scrolling, keyboard and scrollbar stay native.
+// the old Framer site had). Each wheel tick moves a target and the page eases
+// toward it every frame. On the About page each gesture turns exactly one
+// chapter instead. Touch scrolling, the scrollbar and reduced motion stay native.
 (() => {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const root = document.documentElement;
   root.classList.add('smooth-scroll'); // styles.css: hands scrolling over to this script
 
-  const EASE = 0.085;          // share of the remaining distance covered per 60fps frame (lower = slower)
+  const EASE = 0.085;          // free scrolling: share of the remaining distance per 60fps frame (lower = slower)
+  const TURN_MS = 900;         // About: how long one page turn takes
   let target = scrollY;
   let current = scrollY;
   let raf = 0;
   let last = 0;
+  let tween = null;            // { from, to, start } while a page turn is running
 
   const maxScroll = () => root.scrollHeight - innerHeight;
   const clamp = (v) => Math.min(Math.max(v, 0), maxScroll());
+  const easeInOut = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
 
   const frame = (now) => {
-    const dt = Math.min(now - (last || now), 64) || 16.7;
-    last = now;
-    current += (target - current) * (1 - Math.pow(1 - EASE, dt / 16.7));
-    if (Math.abs(target - current) < 0.5) {
-      current = target;
-      raf = 0;
-      last = 0;
+    if (tween) {
+      tween.start ??= now;
+      const p = Math.min((now - tween.start) / TURN_MS, 1);
+      current = tween.from + (tween.to - tween.from) * easeInOut(p);
+      if (p === 1) tween = null;
     } else {
-      raf = requestAnimationFrame(frame);
+      const dt = Math.min(now - (last || now), 64) || 16.7;
+      current += (target - current) * (1 - Math.pow(1 - EASE, dt / 16.7));
+      if (Math.abs(target - current) < 0.5) current = target;
     }
+    last = now;
     scrollTo(0, current);
+    if (tween || current !== target) raf = requestAnimationFrame(frame);
+    else { raf = 0; last = 0; }
   };
+  const run = () => { if (!raf) raf = requestAnimationFrame(frame); };
 
-  const scrollToY = (y) => {
+  // free scrolling: ease toward y
+  const easeTo = (y) => {
+    if (!raf) current = scrollY;
+    tween = null;
+    target = clamp(y);
+    run();
+  };
+  // page turn: a fixed-length glide to y
+  const glideTo = (y) => {
     if (!raf) current = scrollY;
     target = clamp(y);
-    if (!raf) raf = requestAnimationFrame(frame);
+    tween = { from: current, to: target, start: null };
+    run();
   };
-
   const stop = () => {
     cancelAnimationFrame(raf);
     raf = 0;
     last = 0;
+    tween = null;
     target = current = scrollY;
   };
+  const position = () => (raf ? target : scrollY);
 
   // Leave the wheel alone over anything that scrolls on its own
   const scrollsItself = (el, dy) => {
@@ -115,18 +133,55 @@
     return false;
   };
 
-  // About page: the chapters snap into place once the wheel goes quiet
-  const snapPoints = document.querySelector('.page-about')
-    ? () => [...document.querySelectorAll('.chapter, .ledger')].map((el) => el.getBoundingClientRect().top + scrollY).concat(maxScroll())
-    : null;
-  let snapTimer;
-  const snapSoon = () => {
-    if (!snapPoints || innerHeight < 560) return;
-    clearTimeout(snapTimer);
-    snapTimer = setTimeout(() => {
-      const nearest = snapPoints().reduce((a, b) => (Math.abs(b - target) < Math.abs(a - target) ? b : a));
-      if (Math.abs(nearest - target) < innerHeight * 0.35) scrollToY(nearest);
-    }, 160);
+  // ---- About: one chapter per gesture --------------------------------------
+  const book = document.querySelector('.page-about');
+  const chapters = book ? [...document.querySelectorAll('.chapter')] : [];
+  const ledger = book && document.querySelector('.ledger');
+  const docTop = (el) => el.getBoundingClientRect().top + scrollY;
+  // only when every chapter fits on screen; otherwise it's free scrolling
+  const paging = () => chapters.length > 0 && innerHeight >= 560 && chapters.every((c) => c.offsetHeight <= innerHeight + 2);
+
+  // Turns one page in `dir`. Returns false when the page should scroll freely
+  // instead (inside "The short version" and the footer below the chapters).
+  const turn = (dir) => {
+    const y = position();
+    const pages = chapters.map(docTop);
+    const freeFrom = ledger ? docTop(ledger) : maxScroll();
+    if (dir > 0) {
+      if (y >= freeFrom - 2) return false;
+      const next = pages.concat(freeFrom).find((t) => t > y + 2);
+      glideTo(next ?? freeFrom);
+    } else {
+      if (y > freeFrom + 2) return false;
+      const prev = pages.filter((t) => t < y - 2).pop();
+      if (prev === undefined) return true;
+      glideTo(prev);
+    }
+    root.classList.add('js-paging'); // pages.css: the CSS snap steps aside
+    return true;
+  };
+
+  // A trackpad keeps sending decaying "momentum" events after the fingers lift,
+  // so a gesture ends after a short pause, or when a fresh swipe or a wheel
+  // notch shows up once the turn has finished.
+  let lastWheel = 0;
+  let lastAbs = 0;
+  let acc = 0;
+  let mode = null;             // this gesture: null (undecided) | 'turned' | 'free'
+  // true = the wheel event is handled here; false = scroll freely
+  const pageWheel = (dy) => {
+    const now = performance.now();
+    const abs = Math.abs(dy);
+    const newSwipe = mode === 'turned' && !tween && ((abs > lastAbs * 1.6 && abs > 8) || (abs >= 80 && abs >= lastAbs));
+    if (now - lastWheel > 140 || newSwipe) { acc = 0; mode = null; }
+    lastWheel = now;
+    lastAbs = abs;
+    if (mode === 'free') return false;
+    if (mode === 'turned' || tween) return true;
+    acc += dy;
+    if (Math.abs(acc) < 24) return true;
+    mode = turn(Math.sign(acc)) ? 'turned' : 'free';
+    return mode === 'turned';
   };
 
   addEventListener('wheel', (e) => {
@@ -134,12 +189,28 @@
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;         // sideways swipes
     if (scrollsItself(e.target, e.deltaY)) return;
     e.preventDefault();
-    const unit = e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1;
-    scrollToY((raf ? target : scrollY) + e.deltaY * unit);
-    snapSoon();
+    const dy = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1);
+    if (book) root.classList.add('js-paging');
+    if (paging() && pageWheel(dy)) return;
+    if (tween) return;
+    let y = position() + dy;
+    // free scrolling stops at the first item below the chapters; the next gesture turns back
+    if (paging() && ledger && dy < 0) y = Math.max(y, docTop(ledger));
+    easeTo(y);
   }, { passive: false });
 
-  // Someone else moved the page (scrollbar drag, keyboard, find-in-page): let go
+  // keyboard page turns on the About page
+  if (book) {
+    addEventListener('keydown', (e) => {
+      if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || !paging()) return;
+      if (e.target instanceof Element && e.target.closest('input, textarea, select, [contenteditable]')) return;
+      const dir = { ArrowDown: 1, PageDown: 1, ArrowUp: -1, PageUp: -1, ' ': e.shiftKey ? -1 : 1 }[e.key];
+      if (!dir || tween) { if (dir) e.preventDefault(); return; }
+      if (turn(dir)) e.preventDefault();
+    });
+  }
+
+  // Someone else moved the page (scrollbar drag, find-in-page): let go
   addEventListener('scroll', () => {
     if (raf && Math.abs(scrollY - current) > 2) stop();
   }, { passive: true });
@@ -153,8 +224,8 @@
     if (!link || e.metaKey || e.ctrlKey || e.shiftKey) return;
     const id = link.getAttribute('href').slice(1);
     const el = id ? document.getElementById(id) : null;
-    if (!id || !el) return;
+    if (!el) return;
     e.preventDefault();
-    scrollToY(el.getBoundingClientRect().top + scrollY);
+    easeTo(docTop(el));
   });
 })();

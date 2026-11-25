@@ -62,17 +62,26 @@
 .page-about {
   --story-muted: #7D7D7D;
   --story-line: rgba(2, 2, 3, .08);
-  background:
-    radial-gradient(60% 70% at 100% 0%, #F9EFF3 0%, rgba(249, 239, 243, 0) 100%) fixed,
-    var(--bg);
+  background: var(--bg);
+}
+/* pink glow pinned to the screen; a fixed layer instead of a fixed background,
+   so scrolling doesn't repaint the whole page every frame */
+.page-about::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(60% 70% at 100% 0%, #F9EFF3 0%, rgba(249, 239, 243, 0) 100%);
+  pointer-events: none;
 }
 
 /* scroll snapping: one chapter per stop (only where the screen is tall enough) */
 @media (min-height: 560px) {
   html:has(.page-about) { scroll-snap-type: y proximity; }
 }
-/* with smooth scrolling on, script.js does the snapping instead */
-html.smooth-scroll:has(.page-about) { scroll-snap-type: none; }
+/* once script.js turns the pages (wheel or keyboard), the CSS snap steps aside;
+   touch screens keep the native snap */
+html.js-paging:has(.page-about) { scroll-snap-type: none; }
 .chapter, .ledger { scroll-snap-align: start; }
 .page-about .mini-footer { scroll-snap-align: end; }
 
