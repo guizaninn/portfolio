@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="pages.css">
 </head>
-<body class="page-case">
+<body class="page-case page-case--booktracker">
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
@@ -48,28 +48,32 @@
       <p class="page-label">Booktracker</p>
     </header>
 
-    <img class="shot case__cover reveal" src="assets/img/booktracker/cover.png" width="840" height="615" alt="Booktracker app shown on two phones">
+    <img class="shot shot--bare case__cover reveal" src="assets/img/booktracker/cover.png" width="840" height="615" alt="Booktracker app shown on two phones">
 
     <h1 class="case__title reveal">A reading tracker for book lovers</h1>
 
     <div class="case__meta reveal" style="--d:.1s">
       <div class="case__aside">
         <div>
-          <p class="eyebrow">Team</p>
-          <ul class="case__list">
-            <li>Guilherme Zanin</li>
-            <li>Pedro Recchia</li>
-          </ul>
-        </div>
-        <div>
           <p class="eyebrow">What I did</p>
-          <ul class="case__list">
-            <li>Desk Research</li>
+          <ul class="case__list case__list--bullets">
+            <li>Desk research</li>
             <li>Wireframing</li>
             <li>User interface</li>
             <li>Advanced prototyping</li>
-            <li>Hands off to Developers</li>
+            <li>Developer hand-off</li>
           </ul>
+        </div>
+        <div>
+          <p class="eyebrow">Team</p>
+          <ul class="case__list case__list--bullets">
+            <li>Guilherme Zanin</li>
+            <li>Pedro Recchia, UX Designer</li>
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow">Period</p>
+          <p class="case__list">2023</p>
         </div>
       </div>
 
@@ -77,22 +81,39 @@
         <p class="eyebrow">About the project</p>
         <div class="case__body">
           <p>The biggest challenge of this project was creating an app entirely from scratch, with very limited research resources. I worked almost independently from wireframes provided by Pedro Recchia, a UX Designer. The process included competitor research, concept mapping, discovery sessions with the client, wireframe creation, and, finally, advanced prototyping.</p>
-          <p>The project was delivered in early 2023 but has not yet been developed as an app, which has limited the collection of additional data.</p>
+          <p>The project was delivered in early 2023 but has not yet been developed as an app, which has limited the collection of additional data. Below, I showcase the visual solutions we created for both the app and the promotional landing page.</p>
         </div>
       </div>
     </div>
 
     <div class="case__content">
+      <section class="case-section reveal">
+        <h2>The app</h2>
+        <div class="case__body">
+          <p>A gamified app that encourages people to dedicate time to reading by tracking the daily time they spend with books — from onboarding and the reading timer to the library and achievements.</p>
+        </div>
+      </section>
       <picture><source type="image/avif" srcset="assets/img/booktracker/screens-1.avif"><img class="shot reveal" src="assets/img/booktracker/screens-1.png" width="840" height="866" alt="Booktracker onboarding and reading timer screens" loading="lazy"></picture>
       <picture><source type="image/avif" srcset="assets/img/booktracker/screens-2.avif"><img class="shot reveal" src="assets/img/booktracker/screens-2.png" width="840" height="685" alt="Booktracker library and achievements screens" loading="lazy"></picture>
-      <p class="case__body reveal">Here, I showcase the visual solutions we created for both the app and the promotional landing page.</p>
+
+      <section class="case-section reveal">
+        <h2>The landing page</h2>
+        <div class="case__body">
+          <p>A promotional landing page that presents the product and its gamified reading experience to future readers.</p>
+        </div>
+      </section>
       <picture><source type="image/avif" srcset="assets/img/booktracker/landing-page.avif"><img class="shot reveal" src="assets/img/booktracker/landing-page.png" width="1260" height="2132" alt="Booktracker promotional landing page" loading="lazy"></picture>
     </div>
+
+    <nav class="case-next reveal" aria-label="Next case">
+      <p class="eyebrow">Next case</p>
+      <a class="case-next__link" href="bradesco-bank.html">Bradesco Bank <svg viewBox="-1 -1 16 13" width="16" height="13" aria-hidden="true"><path d="M.334 5.5h13.333m0 0L8.667.5m5 5-5 5"/></svg></a>
+    </nav>
   </main>
 
   <footer class="mini-footer">
     <img src="assets/icons/logo-white.svg" alt="guizanin" width="76" height="22">
-    <span>@ 2026</span>
+    <span>© 2026</span>
   </footer>
 
   <script src="script.js"></script>
