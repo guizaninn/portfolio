@@ -391,46 +391,111 @@ h1, h2, h3, p { margin: 0; }
 }
 .project:hover .project__media img { transform: scale(1.04); }
 
-/* --------------------------------------------------------------- MORE ---- */
-.more {
+/* ------------------------------------------------- MORE (Behance) ---- */
+.work__more {
   position: relative;
   z-index: 2;
-  background: var(--bg);
   display: flex;
-  justify-content: center;
-  padding: 120px var(--pad-x) 128px;
-}
-.more__text {
-  width: 333px;
-  max-width: 100%;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.32;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 40px var(--pad-x) 112px;
+  background: var(--bg);
+  font-size: 15px;
+  font-weight: 500;
   letter-spacing: -.01em;
-  color: var(--ink-soft);
+  color: #8A8A8A;
 }
+.work__more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  transition: color .25s var(--ease);
+}
+.work__more-link svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.667;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .35s var(--ease);
+}
+.work__more-link:hover { color: var(--accent); }
+.work__more-link:hover svg { transform: translate(2px, -2px); }
 
 /* ------------------------------------------------------------ CONNECT ---- */
 .connect {
+  --rule: rgba(254, 254, 254, .14);
+  --muted: rgba(254, 254, 254, .56);
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 48px;
-  min-height: 440px;
-  padding: 64px;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 136px var(--pad-x) 0;
   background: var(--ink);
   color: var(--white);
-  text-align: center;
+}
+/* soft brand glow in the corner */
+.connect::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -340px;
+  right: -260px;
+  width: 820px;
+  height: 820px;
+  border-radius: 50%;
+  background: var(--gradient);
+  opacity: .14;
+  filter: blur(140px);
+  pointer-events: none;
+}
+
+.connect__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  align-items: start;
+  gap: 48px 96px;
+  max-width: 1312px;
+  margin: 0 auto;
+}
+
+.connect__head { grid-column: 1 / -1; }
+
+.connect__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px 7px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: rgba(254, 254, 254, .82);
+}
+.connect__pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ADE80;
+  animation: pulse 2.4s ease-out infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(74, 222, 128, .55); }
+  70%  { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
 }
 
 .connect__title {
-  font-size: clamp(56px, 9vw, 88px);
+  margin-top: 28px;
+  padding-bottom: .06em; /* keeps descenders inside the clipped background */
+  font-size: clamp(60px, 9.4vw, 136px);
   font-weight: 600;
-  line-height: 1.14;
-  letter-spacing: -2px;
+  line-height: 1;
+  letter-spacing: -.045em;
   color: transparent;
   background: url("assets/img/touch-texture.png") 0% 10% / cover, var(--gradient);
   background: image-set(url("assets/img/touch-texture.avif") type("image/avif"), url("assets/img/touch-texture.png") type("image/png")) 0% 10% / cover, var(--gradient);
@@ -440,38 +505,167 @@ h1, h2, h3, p { margin: 0; }
 }
 @keyframes texture-pan { to { background-position: 100% 90%, 0 0; } }
 
-.connect__body { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.connect__label { font-size: 16px; font-weight: 500; letter-spacing: -.01em; }
+.connect__lead {
+  max-width: 380px;
+  padding-top: 22px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -.01em;
+  color: var(--muted);
+}
 
-.connect__links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px 48px;
+/* Link rows */
+.connect__list {
   margin: 0;
   padding: 0;
   list-style: none;
+  border-bottom: 1px solid var(--rule);
 }
+.connect__item {
+  position: relative;
+  border-top: 1px solid var(--rule);
+}
+/* gradient line that sweeps across the row's top rule on hover */
+.connect__item::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -1px;
+  height: 1px;
+  background: var(--gradient);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .5s var(--ease);
+}
+.connect__item:hover::before { transform: scaleX(1); transform-origin: left; }
 
-.connect__link {
-  display: inline-flex;
+.connect__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 12px;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -.01em;
-  line-height: 1.3;
+  column-gap: 24px;
+  row-gap: 2px;
+  padding: 26px 0;
 }
-.connect__link svg {
+.connect__label {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  transition: translate .45s var(--ease);
+}
+.connect__meta {
+  grid-column: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .01em;
+  color: var(--muted);
+  transition: translate .45s var(--ease) .03s;
+}
+.connect__icon {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  transition: background-color .3s var(--ease), border-color .3s var(--ease), transform .45s var(--ease);
+}
+.connect__icon svg {
   fill: none;
   stroke: var(--white);
   stroke-width: 1.667;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: transform .35s var(--ease);
+  transition: stroke .3s var(--ease);
 }
-.connect__link:hover { color: transparent; background: var(--gradient); -webkit-background-clip: text; background-clip: text; }
-.connect__link:hover svg { stroke: url(#brand-gradient); transform: translateY(-2px); }
+
+.connect__row:hover .connect__label,
+.connect__row:focus-visible .connect__label {
+  translate: 8px 0;
+  color: transparent;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.connect__row:hover .connect__meta,
+.connect__row:focus-visible .connect__meta { translate: 8px 0; color: rgba(254, 254, 254, .8); }
+.connect__row:hover .connect__icon,
+.connect__row:focus-visible .connect__icon {
+  background: var(--white);
+  border-color: var(--white);
+  transform: scale(1.06);
+}
+.connect__row:hover .connect__icon svg,
+.connect__row:focus-visible .connect__icon svg { stroke: url(#brand-gradient); }
+.connect__row:focus-visible { outline: none; }
+.connect__item:focus-within::before { transform: scaleX(1); transform-origin: left; }
+
+/* Copy-email button, sits next to the email row's icon */
+.connect__item--email .connect__label,
+.connect__item--email .connect__meta { margin-right: 84px; }
+.connect__copy {
+  position: absolute;
+  top: 50%;
+  right: 76px;
+  translate: 0 -50%;
+  min-width: 68px;
+  padding: 7px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(254, 254, 254, .82);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+}
+.connect__copy:hover { border-color: rgba(254, 254, 254, .4); color: var(--white); }
+.connect__copy.is-copied { background: #4ADE80; border-color: #4ADE80; color: var(--ink); }
+
+/* Bottom bar */
+.connect__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  flex-wrap: wrap;
+  max-width: 1312px;
+  margin: 120px auto 0;
+  padding: 28px 0 32px;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .01em;
+  color: var(--muted);
+}
+.connect__bar img { width: 76px; height: auto; opacity: .9; }
+.connect__clock time { color: rgba(254, 254, 254, .82); font-variant-numeric: tabular-nums; }
+.connect__top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  transition: color .25s var(--ease);
+}
+.connect__top svg {
+  rotate: -90deg;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.667;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: translate .35s var(--ease);
+}
+.connect__top:hover { color: var(--white); }
+.connect__top:hover svg { translate: 0 -2px; }
 
 /* -------------------------------------------------------- REVEAL ANIM ---- */
 .reveal {
@@ -484,7 +678,7 @@ h1, h2, h3, p { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; translate: none; transition: none; }
-  .orbit, .bubble img, .scroll-cue svg, .connect__title { animation: none; }
+  .orbit, .bubble img, .scroll-cue svg, .connect__title, .connect__pulse { animation: none; }
 }
 
 /* ---------------------------------------------------------- RESPONSIVE --- */
@@ -531,9 +725,19 @@ h1, h2, h3, p { margin: 0; }
   .project__media, .project__media--tall { width: 100%; margin: 0; aspect-ratio: 335 / 204; }
   .project__title { font-size: 24px; }
 
-  .more { padding: 80px var(--pad-x); }
-  .more__text { font-size: 20px; }
+  .work__more { padding: 32px var(--pad-x) 80px; }
 
-  .connect { padding: 64px var(--pad-x); min-height: 380px; }
-  .connect__links { gap: 16px 32px; }
+  .connect { padding-top: 96px; }
+  .connect::before { top: -260px; right: -360px; width: 560px; height: 560px; filter: blur(100px); }
+  .connect__inner { grid-template-columns: 1fr; }
+  .connect__inner { gap: 32px; }
+  .connect__title { margin-top: 24px; }
+  .connect__lead { padding-top: 0; font-size: 18px; }
+  .connect__row { padding: 22px 0; column-gap: 16px; }
+  .connect__label { font-size: 24px; }
+  .connect__icon { width: 44px; height: 44px; }
+  .connect__copy { right: 60px; }
+  .connect__item--email .connect__label,
+  .connect__item--email .connect__meta { margin-right: 80px; }
+  .connect__bar { margin-top: 80px; flex-direction: column; align-items: flex-start; gap: 12px; }
 }

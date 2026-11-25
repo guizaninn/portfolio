@@ -27,3 +27,34 @@
     hero.classList.toggle('is-offscreen', !entry.isIntersecting);
   }).observe(hero);
 })();
+
+// Footer: copy the email address, and show the current time in Florianópolis
+(() => {
+  const btn = document.querySelector('.connect__copy');
+  if (btn && navigator.clipboard) {
+    let timer;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        btn.textContent = 'Copied';
+        btn.classList.add('is-copied');
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('is-copied');
+        }, 1800);
+      } catch { /* clipboard blocked: the mailto link still works */ }
+    });
+  } else if (btn) {
+    btn.remove();
+  }
+
+  const clock = document.querySelector('.connect__clock');
+  if (!clock) return;
+  const time = clock.querySelector('time');
+  const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Sao_Paulo', hour: 'numeric', minute: '2-digit' });
+  const tick = () => { time.textContent = fmt.format(new Date()); };
+  tick();
+  clock.hidden = false;
+  setInterval(tick, 30000);
+})();
