@@ -39,90 +39,209 @@
     </defs>
   </svg>
 
-  <main>
-    <section class="about-intro">
-      <header class="page-head">
-        <a class="back-link" href="index.html">
-          <svg viewBox="-1 -1 16 13" width="14" height="11" aria-hidden="true"><path d="M13.667 5.5H.334m0 0 5 -5m-5 5 5 5"/></svg>
-          Back to home
-        </a>
-        <p class="page-label">About me</p>
-      </header>
+  <div class="story-progress" aria-hidden="true"></div>
 
-      <h1 class="about-intro__title reveal">I'm Guilherme Zanin.</h1>
+  <header class="page-head story-head">
+    <a class="back-link" href="index.html">
+      <svg viewBox="-1 -1 16 13" width="14" height="11" aria-hidden="true"><path d="M13.667 5.5H.334m0 0 5 -5m-5 5 5 5"/></svg>
+      Back to home
+    </a>
+    <p class="page-label">About me</p>
+  </header>
 
-      <div class="about-intro__text reveal" style="--d:.1s">
-        <p>As a Senior Product Designer with over nine years of design experience, my journey has been enriched by a diverse background in Digital Games and Interaction Design. Having had the opportunity to work across industries such as Investments, Banking, Digital Games, E-commerce, and Blockchain, I've cultivated a range of skills that include leadership, attention to detail, and an eye for visual appeal.</p>
-        <p>Throughout my career, I've found joy in leading teams and projects, striving to create experiences that resonate with users. One recent highlight includes my role as the leader of Card Squad at Bradesco, where I had the chance to collaborate with talented individuals and drive innovation within the team. It's through these experiences that I continue to learn and grow, always seeking to refine my craft and make meaningful contributions to the world of design.</p>
+  <main class="story">
+    <h1 class="sr-only">About Guilherme Zanin</h1>
+
+    <!-- 1 · opening -->
+    <section class="chapter chapter--open">
+      <div class="chapter__inner">
+        <figure class="snap reveal" style="--tilt:-3deg; --w:250px">
+          <img src="assets/img/hero.jpg" width="720" height="720" alt="Guilherme holding a fishing rod" fetchpriority="high">
+        </figure>
+        <p class="chapter__text reveal" style="--d:.1s">
+          This is the story of <b class="k">Guilherme</b>, a product designer who never really stopped&nbsp;playing.
+        </p>
       </div>
-
-      <video class="about-intro__video reveal" style="--d:.2s"
-             src="assets/img/about/about.mp4" poster="assets/img/about/poster.avif"
-             autoplay muted loop playsinline aria-label="Guilherme sitting on a camping chair by the sea"></video>
+      <p class="story-hint">Scroll to turn the page</p>
     </section>
 
-    <section class="about-cv">
-      <div class="cv-col reveal">
-        <h2>Experience</h2>
-        <ul class="cv-list">
-          <li class="cv-item">
-            <p class="cv-item__role">Sr. Product Designer</p>
-            <a class="cv-item__org" href="https://www.linkedin.com/company/bradesco" target="_blank" rel="noopener">Bradesco Bank</a>
-            <p class="cv-item__date">Sep 2022 - current</p>
-          </li>
-          <li class="cv-item">
-            <p class="cv-item__role">Sr. UI/UX Designer</p>
-            <a class="cv-item__org" href="https://www.linkedin.com/company/vastuudesign" target="_blank" rel="noopener">VASTUU Design</a>
-            <p class="cv-item__date">Feb 2022 - Jan 2024</p>
-          </li>
-          <li class="cv-item">
-            <p class="cv-item__role">UI/UX Designer</p>
-            <a class="cv-item__org" href="https://www.linkedin.com/company/checkcommerce" target="_blank" rel="noopener">Checkcommerce</a>
-            <p class="cv-item__date">Mar 2021 - Feb 2022</p>
-          </li>
-          <li class="cv-item">
-            <p class="cv-item__role">UI &amp; Graphic Designer</p>
-            <a class="cv-item__org" href="https://www.linkedin.com/company/hoplongames/" target="_blank" rel="noopener">Hoplon</a>
-            <p class="cv-item__date">Jun 2018 - Mar 2021</p>
-          </li>
+    <!-- 2 · games -->
+    <section class="chapter">
+      <div class="chapter__inner">
+        <span class="sticker reveal" style="--tilt:-8deg" aria-hidden="true">🎮</span>
+        <p class="chapter__text reveal" style="--d:.1s">
+          It started with <b class="k"><span class="k__icon" aria-hidden="true">🕹️</span>digital games.</b>
+          Then <b class="k"><span class="k__icon" aria-hidden="true">👆</span>interaction design:</b>
+          how people and screens talk to each other. <em>He wanted to make things people enjoy&nbsp;using.</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- 3 · Hoplon -->
+    <section class="chapter">
+      <div class="chapter__inner">
+        <span class="sticker reveal" style="--tilt:7deg" aria-hidden="true">👾</span>
+        <p class="chapter__text reveal" style="--d:.1s">
+          In 2018 he joined <b class="k"><span class="k__icon" aria-hidden="true">🐉</span>Hoplon,</b>
+          a game studio, as a UI &amp; graphic designer. Three years of designing for players,
+          <em>who never forgive a confusing&nbsp;screen.</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- 4 · Checkcommerce -->
+    <section class="chapter">
+      <div class="chapter__inner">
+        <span class="sticker reveal" style="--tilt:-5deg" aria-hidden="true">🛒</span>
+        <p class="chapter__text reveal" style="--d:.1s">
+          In 2021 the players became shoppers. At <b class="k"><span class="k__icon" aria-hidden="true">🛍️</span>Checkcommerce</b>
+          he designed for e-commerce, <em>where every extra click can cost a&nbsp;sale.</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- 5 · VASTUU -->
+    <section class="chapter">
+      <div class="chapter__inner">
+        <span class="sticker reveal" style="--tilt:6deg" aria-hidden="true">🧭</span>
+        <p class="chapter__text reveal" style="--d:.1s">
+          Then came <b class="k"><span class="k__icon" aria-hidden="true">✏️</span>VASTUU Design,</b>
+          a studio with clients in investments, blockchain and beyond.
+          <em>Every new client meant a new industry to&nbsp;learn.</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- 6 · Bradesco -->
+    <section class="chapter">
+      <div class="chapter__inner">
+        <figure class="snap reveal" style="--tilt:2.5deg; --w:330px">
+          <picture><source type="image/avif" srcset="assets/img/work-bradesco.avif"><img src="assets/img/work-bradesco.png" width="840" height="486" alt="Bradesco credit card invoice screen on an iPhone" loading="lazy"></picture>
+        </figure>
+        <p class="chapter__text reveal" style="--d:.1s">
+          In 2022 he joined <b class="k"><span class="k__icon" aria-hidden="true">🏦</span>Bradesco,</b>
+          the second largest private bank in Brazil, designing for <em>more than 70 million&nbsp;people.</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- 7 · Card Squad -->
+    <section class="chapter">
+      <div class="chapter__inner">
+        <figure class="snap reveal" style="--tilt:-2deg; --w:330px">
+          <picture><source type="image/avif" srcset="assets/img/bradesco/virtual-card.avif"><img src="assets/img/bradesco/virtual-card.png" width="840" height="486" alt="Bradesco virtual card screen" loading="lazy"></picture>
+        </figure>
+        <p class="chapter__text reveal" style="--d:.1s">
+          There he came to lead the <b class="k"><span class="k__icon" aria-hidden="true">💳</span>Card Squad,</b>
+          and found out that helping a team do its best work <em>feels as good as doing his&nbsp;own.</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- 8 · learning -->
+    <section class="chapter">
+      <div class="chapter__inner">
+        <span class="sticker reveal" style="--tilt:-6deg" aria-hidden="true">📚</span>
+        <p class="chapter__text reveal" style="--d:.1s">
+          He never stopped studying: design leadership, data design, design systems,
+          UX research, strategic design. <em>Nine years in, he’s still a&nbsp;student.</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- 9 · off screen -->
+    <section class="chapter">
+      <div class="chapter__inner">
+        <div class="snap-stack reveal">
+          <figure class="snap" style="--tilt:-9deg; --w:170px"><img src="assets/img/bubble-selfie.jpg" width="206" height="272" alt="Guilherme kicking a football on a pitch" loading="lazy"></figure>
+          <figure class="snap" style="--tilt:2deg; --w:170px"><img src="assets/img/bubble-car.jpg" width="204" height="272" alt="Guilherme fishing on a wooden pier by a lake" loading="lazy"></figure>
+          <figure class="snap" style="--tilt:10deg; --w:170px"><img src="assets/img/bubble-football.jpg" width="204" height="272" alt="A mate gourd held in a car on a mountain road" loading="lazy"></figure>
+        </div>
+        <p class="chapter__text reveal" style="--d:.1s">
+          Off the screen, you’ll find him <b class="k"><span class="k__icon" aria-hidden="true">⚽</span>playing football,</b>
+          <b class="k"><span class="k__icon" aria-hidden="true">🎣</span>fishing,</b>
+          or on a road trip with a <b class="k"><span class="k__icon" aria-hidden="true">🧉</span>mate</b> in&nbsp;hand.
+        </p>
+      </div>
+    </section>
+
+    <!-- 10 · coffee -->
+    <section class="chapter">
+      <div class="chapter__inner">
+        <figure class="snap snap--video reveal" style="--tilt:3deg; --w:260px">
+          <video src="assets/img/about/about.mp4" poster="assets/img/about/poster.avif"
+                 autoplay muted loop playsinline preload="metadata"
+                 aria-label="Guilherme making coffee on a camping stove at sunset"></video>
+        </figure>
+        <p class="chapter__text reveal" style="--d:.1s">
+          Or somewhere quiet, making <b class="k"><span class="k__icon" aria-hidden="true">☕</span>coffee</b>
+          with a&nbsp;view.
+        </p>
+      </div>
+    </section>
+
+    <!-- 11 · hello -->
+    <section class="chapter chapter--hello">
+      <div class="chapter__inner">
+        <p class="chapter__text reveal">
+          Hi! I’m <b class="k"><span class="k__avatar" aria-hidden="true"></span>Guilherme.</b>
+          I like building useful things with good&nbsp;people.
+        </p>
+        <ul class="hello-links reveal" style="--d:.15s">
+          <li><a href="mailto:guilhermezanin07@gmail.com"><span aria-hidden="true">✉️</span> Say hello <span class="arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="https://www.linkedin.com/in/guilherme-zanin/" target="_blank" rel="noopener">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></li>
+          <li><a href="https://drive.google.com/file/d/13iVCZ-wm-vvY3Ag7yDLtZ_JTH_hKMxsA/view" target="_blank" rel="noopener">Resume <span class="arrow" aria-hidden="true">↗</span></a></li>
         </ul>
       </div>
+    </section>
 
-      <div class="cv-col cv-col--courses reveal" style="--d:.1s">
-        <h2>Courses</h2>
-        <ul class="cv-list">
-          <li class="cv-item">
-            <p class="cv-item__role">Strategic Design</p>
-            <p class="cv-item__org">The Starter</p>
-            <p class="cv-item__date">Aug 2024</p>
-          </li>
-          <li class="cv-item">
-            <p class="cv-item__role">UX Research</p>
-            <p class="cv-item__org">How Bootcamps</p>
-            <p class="cv-item__date">Sep 2023</p>
-          </li>
-          <li class="cv-item">
-            <p class="cv-item__role">Design System &amp; Ops</p>
-            <p class="cv-item__org">Meiuca Design</p>
-            <p class="cv-item__date">Sep 2022</p>
-          </li>
-          <li class="cv-item">
-            <p class="cv-item__role">Data Design</p>
-            <p class="cv-item__org">UX4 Tecnologia</p>
-            <p class="cv-item__date">Mar 2020</p>
-          </li>
-          <li class="cv-item">
-            <p class="cv-item__role">Design Leadership</p>
-            <p class="cv-item__org">How Bootcamps</p>
-            <p class="cv-item__date">Jul 2019</p>
-          </li>
-        </ul>
+    <!-- the short version -->
+    <section class="ledger" aria-labelledby="ledger-title">
+      <h2 class="ledger__title reveal" id="ledger-title">The short version</h2>
+
+      <div class="ledger__grid">
+        <div class="ledger__col reveal">
+          <h3 class="ledger__label">Experience</h3>
+          <ul class="ledger__list">
+            <li>
+              <span class="ledger__what">Sr. Product Designer</span>
+              <a class="ledger__where" href="https://www.linkedin.com/company/bradesco" target="_blank" rel="noopener">Bradesco Bank</a>
+              <span class="ledger__when">2022 – now</span>
+            </li>
+            <li>
+              <span class="ledger__what">Sr. UI/UX Designer</span>
+              <a class="ledger__where" href="https://www.linkedin.com/company/vastuudesign" target="_blank" rel="noopener">VASTUU Design</a>
+              <span class="ledger__when">2022 – 2024</span>
+            </li>
+            <li>
+              <span class="ledger__what">UI/UX Designer</span>
+              <a class="ledger__where" href="https://www.linkedin.com/company/checkcommerce" target="_blank" rel="noopener">Checkcommerce</a>
+              <span class="ledger__when">2021 – 2022</span>
+            </li>
+            <li>
+              <span class="ledger__what">UI &amp; Graphic Designer</span>
+              <a class="ledger__where" href="https://www.linkedin.com/company/hoplongames/" target="_blank" rel="noopener">Hoplon</a>
+              <span class="ledger__when">2018 – 2021</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ledger__col reveal" style="--d:.1s">
+          <h3 class="ledger__label">Courses</h3>
+          <ul class="ledger__list">
+            <li><span class="ledger__what">Strategic Design</span><span class="ledger__where">The Starter</span><span class="ledger__when">2024</span></li>
+            <li><span class="ledger__what">UX Research</span><span class="ledger__where">How Bootcamps</span><span class="ledger__when">2023</span></li>
+            <li><span class="ledger__what">Design System &amp; Ops</span><span class="ledger__where">Meiuca Design</span><span class="ledger__when">2022</span></li>
+            <li><span class="ledger__what">Data Design</span><span class="ledger__where">UX4 Tecnologia</span><span class="ledger__when">2020</span></li>
+            <li><span class="ledger__what">Design Leadership</span><span class="ledger__where">How Bootcamps</span><span class="ledger__when">2019</span></li>
+          </ul>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="mini-footer">
-    <img src="assets/icons/logo-white.svg" alt="guizanin" width="76" height="22">
+    <img src="assets/icons/logo.svg" alt="guizanin" width="76" height="22">
     <span>© 2026</span>
   </footer>
 

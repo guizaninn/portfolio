@@ -56,84 +56,283 @@
 .mini-footer img { width: 76px; height: auto; }
 
 /* ============================================================ ABOUT ===== */
-.page-about { background: #F2F2F2; }
+/* A storybook told one "slide" at a time: every chapter fills the screen,
+   scrolling snaps to the next one, and each slide fades in and out as it
+   passes. Same type and colours as the rest of the site. */
+.page-about {
+  --story-muted: #7D7D7D;
+  --story-line: rgba(2, 2, 3, .08);
+  background:
+    radial-gradient(60% 70% at 100% 0%, #F9EFF3 0%, rgba(249, 239, 243, 0) 100%) fixed,
+    var(--bg);
+}
 
-.about-intro {
-  min-height: max(100vh, 760px);
-  min-height: max(100svh, 760px);
+/* scroll snapping: one chapter per stop (only where the screen is tall enough) */
+@media (min-height: 560px) {
+  html:has(.page-about) { scroll-snap-type: y proximity; }
+}
+.chapter, .ledger { scroll-snap-align: start; }
+.page-about .mini-footer { scroll-snap-align: end; }
+
+/* thin brand-gradient reading bar (scroll-driven where supported) */
+.story-progress { display: none; }
+@supports (animation-timeline: scroll()) {
+  .story-progress {
+    display: block;
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 20;
+    height: 3px;
+    background: var(--gradient);
+    transform-origin: 0 50%;
+    animation: story-progress linear both;
+    animation-timeline: scroll(root);
+  }
+  @keyframes story-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+}
+
+/* header floats over the first slide so that slide is exactly one screen */
+.story-head {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 5;
+  padding: 40px 64px;
+}
+
+.chapter {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 96px 20px;
+  text-align: center;
+}
+.chapter__inner {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 64px;
-  background: radial-gradient(60.6% 100% at 100% 0%, #F9EFF3 0%, var(--bg) 100%);
+  align-items: center;
+  gap: 40px;
 }
-.about-intro .page-label { font-size: 24px; }
 
-.about-intro__title {
-  margin-top: -8px;
+.chapter__text {
+  max-width: 19em;
+  font-size: clamp(22px, 1vw + 15px, 28px);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -.015em;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+.chapter__text em { font-style: normal; color: var(--story-muted); }
+
+/* bold keyword with a little icon in front, like a word in a picture book */
+.k { font-weight: 700; color: var(--ink); white-space: nowrap; }
+.k__icon {
+  display: inline-block;
+  margin-right: .22em;
+  font-size: .8em;
+  rotate: -6deg;
+  translate: 0 -.06em;
+}
+.k__avatar {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  margin-right: .25em;
+  border-radius: 50%;
+  background: #EDEDED url("assets/img/hero.jpg") 54.5% 21% / 800% no-repeat;   /* crop to the face */
+  vertical-align: -.16em;
+  box-shadow: 0 0 0 2px #fff, 0 2px 6px rgba(0, 0, 0, .12);
+}
+
+.story-hint {
+  position: absolute;
+  left: 0; right: 0; bottom: 40px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--story-muted);
+  animation: story-hint-in 1s var(--ease) .6s both;
+}
+@keyframes story-hint-in { from { opacity: 0; translate: 0 8px; } }
+
+/* ---- photos taped into the book ---- */
+.snap {
+  position: relative;
+  width: min(var(--w, 260px), 78vw);
+  margin: 0;
+  padding: 10px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(2, 2, 3, .04),
+    0 18px 40px -16px rgba(64, 0, 23, .28);
+  rotate: var(--tilt, 0deg);
+}
+.snap img, .snap video, .snap picture {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  object-fit: cover;
+}
+/* strip of tape in the brand pink */
+.snap::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 76px;
+  height: 24px;
+  translate: -50% 0;
+  rotate: calc(var(--tilt, 0deg) * -1.4);
+  background: rgba(253, 125, 171, .3);
+}
+.snap--video video { aspect-ratio: 3 / 4; background: #EDE7E9; }
+
+/* photos and stickers straighten in from a bigger tilt the first time they show */
+.snap.reveal, .sticker.reveal { transition-property: opacity, translate, rotate; }
+.snap.reveal:not(.is-in), .sticker.reveal:not(.is-in) { rotate: calc(var(--tilt, 0deg) * 2.2); }
+
+/* fanned stack of three photos */
+.snap-stack { display: flex; justify-content: center; align-items: center; padding: 0 12px; }
+.snap-stack .snap { width: min(var(--w), 30vw); padding: 7px; }
+.snap-stack .snap img { aspect-ratio: 3 / 4; }
+.snap-stack .snap + .snap { margin-left: -22px; }
+.snap-stack .snap:nth-child(2) { z-index: 1; translate: 0 -14px; }
+.snap-stack .snap::before { width: 52px; height: 18px; top: -9px; }
+.snap-stack.reveal .snap { transition: rotate .9s var(--ease), translate .9s var(--ease); }
+.snap-stack.reveal:not(.is-in) .snap { rotate: 0deg; translate: 0 0; }
+
+/* emoji as a die-cut sticker */
+.sticker {
+  display: block;
+  font-size: clamp(76px, 7vw, 104px);
+  line-height: 1;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  rotate: var(--tilt, 0deg);
+  filter:
+    drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff)
+    drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
+    drop-shadow(0 10px 14px rgba(64, 0, 23, .18));
+  user-select: none;
+}
+
+/* ---- slide transition: each chapter fades/rises in, holds, then fades/lifts out ---- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* the scroll animation takes over (the first slide keeps its on-load entrance) */
+    .chapter:not(.chapter--open) .reveal { opacity: 1; translate: none; }
+    .chapter__inner {
+      animation: story-slide linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+    /* the first slide starts on screen, so it only animates out */
+    .chapter--open .chapter__inner {
+      animation-name: story-slide-out;
+      animation-range: cover 50% cover 100%;
+    }
+    @keyframes story-slide {
+      0%       { opacity: 0; transform: translateY(72px) scale(.96); }
+      32%, 68% { opacity: 1; transform: none; }
+      100%     { opacity: 0; transform: translateY(-72px) scale(.96); }
+    }
+    @keyframes story-slide-out {
+      0%, 36% { opacity: 1; transform: none; }
+      100%    { opacity: 0; transform: translateY(-72px) scale(.96); }
+    }
+  }
+}
+
+/* ---- closing slide ---- */
+.chapter--hello .chapter__inner { gap: 32px; }
+.hello-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+.hello-links a {
+  padding-bottom: 3px;
+  color: var(--ink);
+  background-image: linear-gradient(var(--ink), var(--ink)), var(--gradient);
+  background-size: 100% 1px, 0% 1.5px;
+  background-position: 0 100%, 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size .35s var(--ease), color .25s;
+}
+.hello-links a:hover { background-size: 0% 1px, 100% 1.5px; color: var(--accent); }
+.hello-links .arrow { display: inline-block; transition: transform .35s var(--ease); }
+.hello-links a:hover .arrow { transform: translateX(3px); }
+
+/* ---- the short version (CV) ---- */
+.ledger {
+  width: min(960px, 100% - 40px);
+  margin: 0 auto;
+  padding: 120px 0;
+}
+.ledger__title {
+  margin-bottom: 48px;
   font-size: 32px;
   font-weight: 600;
   line-height: 1.3;
   letter-spacing: -.01em;
   color: var(--ink-soft);
 }
-
-.about-intro__text {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  font-size: 16px;
-  line-height: 1.4;
-  letter-spacing: .02em;
-}
-
-.about-intro__video {
-  align-self: flex-end;
-  width: 356px;
-  max-width: 100%;
-  aspect-ratio: 356 / 486;
-  margin-top: auto;
-  border-radius: 20px;
-  object-fit: cover;
-  background: #E9E4E6;
-}
-
-.about-cv {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  padding: 64px 64px 80px;
-  background: radial-gradient(60.6% 75.4% at 100% 77.1%, #F9EFF3 0%, var(--bg) 100%);
-}
-
-.cv-col h2 {
-  margin-bottom: 40px;
-  font-size: 32px;
-  font-weight: 600;
-  line-height: .8;
-  letter-spacing: -.01em;
-  color: var(--ink-soft);
-}
-
-.cv-list { display: flex; flex-direction: column; gap: 32px; margin: 0; padding: 0; list-style: none; }
-
-.cv-item { display: flex; flex-direction: column; gap: 8px; }
-.cv-item__role { font-size: 18px; font-weight: 600; line-height: 1.2; color: #06161D; }
-.cv-item__org  { font-size: 14px; font-weight: 700; line-height: 1.2; color: var(--ink); }
-a.cv-item__org { align-self: flex-start; text-decoration: underline; text-underline-offset: 2px; transition: color .2s; }
-a.cv-item__org:hover { color: var(--accent); }
-.cv-item__date {
+.ledger__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px 64px; }
+.ledger__label {
+  margin-bottom: 8px;
   font-size: 12px;
-  font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: .04em;
+  font-weight: 700;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
-.cv-col--courses .cv-item { gap: 6px; }
-.cv-col--courses .cv-item__org { font-weight: 600; }
-.cv-col--courses .cv-item__role { color: var(--ink); }
-.cv-col--courses .cv-item__date { color: var(--ink); }
+.ledger__list { margin: 0; padding: 0; list-style: none; }
+.ledger__list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "what when" "where when";
+  column-gap: 16px;
+  row-gap: 4px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--story-line);
+}
+.ledger__what  { grid-area: what; font-size: 18px; font-weight: 600; line-height: 1.2; color: var(--ink); }
+.ledger__where {
+  grid-area: where;
+  justify-self: start;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+a.ledger__where { text-decoration: underline; text-decoration-color: rgba(2, 2, 3, .25); text-underline-offset: 3px; transition: color .2s, text-decoration-color .2s; }
+a.ledger__where:hover { color: var(--accent); text-decoration-color: currentColor; }
+.ledger__when {
+  grid-area: when;
+  align-self: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snap.reveal:not(.is-in), .sticker.reveal:not(.is-in) { rotate: var(--tilt, 0deg); }
+  .story-progress { display: none; }
+  .story-hint { animation: none; }
+}
 
 /* ======================================================= CASE STUDY ===== */
 /* Every case page uses the same tinted backdrop; each case only sets its tint.
@@ -248,12 +447,13 @@ a.cv-item__org:hover { color: var(--accent); }
 
 /* ------------------------------------------------------- responsive ---- */
 @media (max-width: 809px) {
-  .about-intro { padding: 32px 20px 48px; min-height: auto; }
-  .about-intro .page-label { font-size: 20px; }
-  .about-intro__title { font-size: 28px; margin-top: 16px; }
-  .about-intro__video { align-self: stretch; width: 100%; margin-top: 16px; }
-
-  .about-cv { grid-template-columns: 1fr; gap: 64px; padding: 56px 20px; }
+  .story-head { padding: 28px var(--pad-x); }
+  .chapter { padding: 88px 20px; }
+  .chapter__inner { gap: 32px; }
+  .snap-stack .snap + .snap { margin-left: -14px; }
+  .ledger { padding: 80px 0; }
+  .ledger__title { font-size: 28px; margin-bottom: 32px; }
+  .ledger__grid { grid-template-columns: 1fr; }
 
   .case { padding-top: 32px; }
   .case__cover { margin-top: 40px; }
