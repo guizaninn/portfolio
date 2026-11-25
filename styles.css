@@ -38,6 +38,8 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
+/* script.js animates scrolling itself; native smoothing would fight it */
+html.smooth-scroll { scroll-behavior: auto; }
 
 body {
   margin: 0;

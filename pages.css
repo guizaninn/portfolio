@@ -71,6 +71,8 @@
 @media (min-height: 560px) {
   html:has(.page-about) { scroll-snap-type: y proximity; }
 }
+/* with smooth scrolling on, script.js does the snapping instead */
+html.smooth-scroll:has(.page-about) { scroll-snap-type: none; }
 .chapter, .ledger { scroll-snap-align: start; }
 .page-about .mini-footer { scroll-snap-align: end; }
 
